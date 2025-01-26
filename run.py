@@ -21,17 +21,17 @@ from model import Transformer
 ########################  Parameters  #######################
 #############################################################
 
-parser = argparse.ArgumentParser(description="""PhaMer is a python library for identifying bacteriophages from metagenomic data. 
-                                 PhaMer is based on a Transorfer model and rely on protein-based vocabulary to convert DNA sequences into sentences.""")
+parser = argparse.ArgumentParser(description="""GiantHunter is a python library for identifying NCLDVs from metagenomic data. 
+                                 GiantHunter is based on a Transorfer model and relies on protein-based vocabulary to convert DNA sequences into sentences.""")
 parser.add_argument('--contigs', help='FASTA file of contigs',  default = 'test_contigs.fa')
 parser.add_argument('--proteins', help='FASTA file of predicted proteins (optional)')
-parser.add_argument('--len', help='minimum length of contigs', type=int, default=300)
+parser.add_argument('--len', help='minimum length of contigs', type=int, default=3000)
 parser.add_argument('--threads', help='number of threads to use', type=int, default=8)
 parser.add_argument('--dbdir', help='database directory (optional)',  default = 'database')
 parser.add_argument('--midfolder', help='folder to store the intermediate files', type=str, default='temp/')
 parser.add_argument('--out', help='name of the output file',  type=str, default = 'out/example_prediction.csv')
 parser.add_argument('--reject', help='threshold to reject prophage',  type=float, default = 0.3)
-parser.add_argument('--query_cover', help='the query-cover value of diamond blastp. 0 indicates no constrain.',  type=int, default = 40)
+parser.add_argument('--query_cover', help='The QC value set for DIAMOND BLASTP, setting to 0 means no query-cover constrain.',  type=int, default = 40)
 
 inputs = parser.parse_args()
 
