@@ -257,7 +257,7 @@ def reject_prophage(all_pred, weight):
 # training with short contigs 
 model, optimizer, loss_func = reset_model()
 try:
-    pretrained_dict=torch.load(f'{db_dir}/transformer.pth', map_location=device, weights_only=True)
+    pretrained_dict=torch.load(f'{db_dir}/transformer.pth', map_location=device)
     model.load_state_dict(pretrained_dict)
 except:
     print('cannot find pre-trained model')
