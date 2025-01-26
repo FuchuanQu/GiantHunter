@@ -80,7 +80,7 @@ Prediction on the example file:
 
     python run.py --contigs test/test.fasta --midfolder test/temp --out test/prediction.csv
 
-The prediction will be written in *prediction.csv*. The CSV file has three columns: contigs names, prediction, and prediction score. The test_contig.fasta contains some NCLDV contigs, so the output is almost all NCLDV.
+The prediction will be written in *prediction.csv*, while the filtered NCLDV contigs will be written in *{midfolder}/output_ncldv_contigs.fa*. The CSV file has three columns: contigs names, prediction, and prediction score. The test_contig.fasta contains some NCLDV contigs, so the output is almost all NCLDV.
     
 ### References
 
