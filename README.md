@@ -27,13 +27,13 @@ If you want to use the gpu to accelerate the program:
 ### Quick install
 *Note*: we suggest you to install all the package using conda (both miniconda and [Anaconda](https://anaconda.org/) are ok).
 
-After cloning this respository, you can use anaconda to install the **GiantHunter.yaml**. This will install all packages you need with gpu mode (make sure you have installed cuda on your system to use the gpu version. Othervise, it will run with cpu version). The command is: `conda env create -f PhaMer.yaml -n phamer`
+After cloning this respository, you can use anaconda to install the **GiantHunter.yaml**. This will install all packages you need with gpu mode (make sure you have installed cuda on your system to use the gpu version. Othervise, it will run with cpu version). The command is: `conda env create -f GiantHunter.yaml -n gianthunter`
 
 
 ### Prepare the environment
 1. When you use GiantHunter at the first time
 ```
-cd PhaMer/
+cd GiantHunter/
 conda env create -f GiantHunter.yaml -n gianthunter
 conda activate gianthunter
 ```
@@ -48,7 +48,7 @@ conda activate gianthunter
 ## Usage
 
 ```
-python PhaMer.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--midfolder DIR] [--threads NUM] [--dbdir DR] [--query_cover QC]
+python GiantHunter.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--midfolder DIR] [--threads NUM] [--dbdir DR] [--query_cover QC]
 ```
 
 **Options**
@@ -60,9 +60,9 @@ python PhaMer.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [-
                             predict only for sequence >= len bp (default 3000)
       --proteins PROTEIN_FA
                             An optional protein file. If you have already annotated your contigs, you can use them as the inputs. 
-                            Otherwise, PhaMer will run prodigal to translate your contigs.
+                            Otherwise, GiantHunter will run prodigal to translate your contigs.
       --threads NUM
-                            Number of threads to run PhaMer (default 8)
+                            Number of threads to run GiantHunter (default 8)
       --dbdir DR
                             An optional path to store the database directory (default database/)
       --out OUTPUT_CSV
@@ -70,7 +70,7 @@ python PhaMer.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [-
       --reject THRESHOLD
                             Threshold to reject prophage. The higher the value, the more prophage will be rejected (default 0.3)
       --midfolder DIR
-                            Folder to store the intermediate files (default phamer/)
+                            Folder to store the intermediate files (default gianthunter/)
       --query_cover QC
                             The QC value set for DIAMOND BLASTP, setting to 0 means no query-cover constrain (default 40) 
 
