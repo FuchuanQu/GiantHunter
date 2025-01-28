@@ -84,7 +84,7 @@ The prediction will be written in *prediction.csv*, while the filtered NCLDV con
     
 ### References
 
-The arXiv version can be found via: [arXiv version]()
+The arXiv version can be found via: [arXiv version](https://arxiv.org/abs/2501.15472)
 
 ### Contact
 If you have any questions, please email us: qu.fuchuan@my.cityu.edu.hk
