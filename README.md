@@ -48,7 +48,7 @@ conda activate gianthunter
 ## Usage
 
 ```
-python GiantHunter.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--midfolder DIR] [--threads NUM] [--dbdir DR] [--query_cover QC]
+python run.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--midfolder DIR] [--threads NUM] [--dbdir DR] [--query_cover QC]
 ```
 
 **Options**
