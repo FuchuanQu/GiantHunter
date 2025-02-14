@@ -34,7 +34,7 @@ parser.add_argument('--reject', help='threshold to reject prophage',  type=float
 parser.add_argument('--query_cover', help='The QC value set for DIAMOND BLASTP, setting to 0 means no query-cover constrain.',  type=int, default = 40)
 
 inputs = parser.parse_args()
-
+MAX_LENGTH = 300
 #############################################################
 ######################  Check folders  ######################
 #############################################################
@@ -161,8 +161,8 @@ for contig in contig2pcs:
 # Contigs2sentence
 contig2id = {contig:idx for idx, contig in enumerate(contig2pcs.keys())}
 id2contig = {idx:contig for idx, contig in enumerate(contig2pcs.keys())}
-sentence = np.zeros((len(contig2id.keys()), 300))
-sentence_weight = np.ones((len(contig2id.keys()), 300))
+sentence = np.zeros((len(contig2id.keys()), MAX_LENGTH))
+sentence_weight = np.ones((len(contig2id.keys()), MAX_LENGTH))
 for row in range(sentence.shape[0]):
     contig = id2contig[row]
     pcs = contig2pcs[contig]
@@ -223,7 +223,7 @@ def reset_model():
                 src_vocab_size, 
                 src_pad_idx, 
                 device=device, 
-                max_length=300, 
+                max_length=MAX_LENGTH, 
                 dropout=0.1
     ).to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -271,10 +271,17 @@ except:
 # sentence   = pkl.load(open(f'{transformer_fn}/sentence.feat', 'rb'))
 # id2contig  = pkl.load(open(f'{transformer_fn}/sentence_id2contig.dict', 'rb'))
 # proportion = pkl.load(open(f'{transformer_fn}/sentence_proportion.feat', 'rb'))
-
+marker = pd.read_csv('database/marker.csv',index_col=0)
+marker['PCID'] = marker['PCID'].apply(eval)
+id2marker = {}
+for gene, row in marker.iterrows():
+    id_list = row['PCID']
+    for id in id_list:
+        id2marker[id] = gene
 
 all_pred = []
 all_score = []
+all_marker = []
 with torch.no_grad():
     _ = model.eval()
     for idx in range(0, len(sentence), 500):
@@ -292,8 +299,23 @@ with torch.no_grad():
         all_pred += pred
         all_score += [float('{:.3f}'.format(i)) for i in logit]
 
+        marker = []
+        for i, single_pred in enumerate(pred):
+            if single_pred == 'NCLDV':
+                single_sentence = batch_x[i]
+                single_marker_gene = set()
+                for id in single_sentence:
+                    id = int(id)
+                    if id in id2marker:
+                        single_marker_gene.add(id2marker[id])
+                marker.append(list(single_marker_gene))
+            else:
+                marker.append([])
+        all_marker.extend(marker)
+                    
 
-pred_csv = pd.DataFrame({"Contig":id2contig.values(), "Pred":all_pred, "Score":all_score})
+
+pred_csv = pd.DataFrame({"Contig":id2contig.values(), "Pred":all_pred, "Score":all_score, "marker":all_marker})
 pred_csv.to_csv(inputs.out, index = False)
 
 rec = []
