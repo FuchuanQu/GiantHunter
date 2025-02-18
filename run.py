@@ -34,7 +34,7 @@ parser.add_argument('--reject', help='threshold to reject prophage',  type=float
 parser.add_argument('--query_cover', help='The QC value set for DIAMOND BLASTP, setting to 0 means no query-cover constrain.',  type=int, default = 40)
 
 inputs = parser.parse_args()
-MAX_LENGTH = 300
+MAX_LENGTH = 500
 #############################################################
 ######################  Check folders  ######################
 #############################################################
