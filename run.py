@@ -30,7 +30,7 @@ parser.add_argument('--threads', help='number of threads to use', type=int, defa
 parser.add_argument('--dbdir', help='database directory (optional)',  default = 'database')
 parser.add_argument('--midfolder', help='folder to store the intermediate files', type=str, default='temp/')
 parser.add_argument('--out', help='name of the output file',  type=str, default = 'out/example_prediction.csv')
-parser.add_argument('--reject', help='threshold to reject prophage',  type=float, default = 0.3)
+parser.add_argument('--reject', help='threshold to reject contigs with a small fraction of proteins aligned.',  type=float, default = 0.3)
 parser.add_argument('--query_cover', help='The QC value set for DIAMOND BLASTP, setting to 0 means no query-cover constrain.',  type=int, default = 40)
 
 inputs = parser.parse_args()
