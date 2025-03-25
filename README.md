@@ -68,7 +68,7 @@ python run.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--mi
       --out OUTPUT_CSV
                             The output csv file (prediction)
       --reject THRESHOLD
-                            Threshold to reject prophage. The higher the value, the more prophage will be rejected (default 0.3)
+                            Threshold to reject contigs with a small fraction of proteins aligned. (default 0.3)
       --midfolder DIR
                             Folder to store the intermediate files (default gianthunter/)
       --query_cover QC
