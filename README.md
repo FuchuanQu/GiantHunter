@@ -70,7 +70,7 @@ python run.py [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--mi
       --reject THRESHOLD
                             Threshold to reject contigs with a small fraction of proteins aligned. (default 0.3)
       --midfolder DIR
-                            Folder to store the intermediate files (default gianthunter/)
+                            Folder to store the intermediate files (default temp/)
       --query_cover QC
                             The QC value set for DIAMOND BLASTP, setting to 0 means no query-cover constrain (default 40) 
 
