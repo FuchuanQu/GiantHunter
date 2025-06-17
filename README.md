@@ -89,6 +89,6 @@ There are four main outputs in the folder:
     
 ### References
 
-The paper is accepted by ISMB/ECCB 2025s. See you in Liverpool!
+The paper is accepted by ISMB/ECCB 2025. See you in Liverpool!
 
 The arXiv version can be found via: [arXiv version](https://arxiv.org/abs/2501.15472)
