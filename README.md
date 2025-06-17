@@ -3,7 +3,7 @@
 
 
 # Overview
-The main function of GiantHunter is to identify NCLDV-like contigs from metagenomic data. The input of the program should be fasta files and the output will be a csv file showing the predictions. Since it is a deep learning model, if you have GPU units on your PC, we recommend that you use them to save time. 
+The main function of GiantHunter is to identify NCLDV-like contigs from metagenomic data. The input of the program should be fasta files and the output will be a csv file showing the predictions. 
 
 If you have any trouble installing or using GiantHunter, you can post an issue or directly email us (jiayushang@cuhk.edu.hk). We welcome any suggestions.
 
