@@ -36,11 +36,16 @@ rm -rf GiantHunter/
 ```
 
 
-2. If the example can be run without any bugs, you only need to activate your 'gianthunter' environment before using GiantHunter.
+2. If the example can be run without any bugs, you only need to activate your environment before using GiantHunter.
 ```
 conda activate phabox2
 ```
 
+If you cannot download the database in mainland China, please try the link below:
+```
+https://pan.baidu.com/s/1YJBaXA0OmvUfXEK8QEnkDg
+pwd:jrif 
+```
 
 ## Usage
 
