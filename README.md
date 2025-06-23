@@ -65,7 +65,7 @@ gianthunter [--contigs INPUT_FA] [--out OUTPUT_CSV] [--reject THRESHOLD] [--midf
 
 Prediction on the example file:
 
-    python run.py --contigs GiantHunter/example/test.fasta --out test/ --threads 8 --dbdir GiantHunter/database
+    gianthunter --contigs GiantHunter/example/test.fasta --out test/ --threads 8 --dbdir GiantHunter/database
 
 Please always remember to input the correct path where you store the GiantHunter database.
 
