@@ -33,35 +33,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        conda create -n phabox2 phabox=2.1.9 -c conda-forge -c bioconda -y
+        conda create -n phabox2 phabox=2.1.11 -c conda-forge -c bioconda -y
 
     - name: Test PhaBOX utilities
       run: |
         source /opt/mambaforge/bin/activate phabox2
-        git clone https://github.com/KennthShang/PhaBOX.git
-        cd PhaBOX
+        git clone https://github.com/FuchuanQu/GiantHunter.git
+        cd GiantHunter
         python -m pip install .
         cd ..
-        wget https://github.com/KennthShang/PhaBOX/releases/download/v2/example_contigs.fa
-        wget https://github.com/KennthShang/PhaBOX/releases/download/v2/phabox_db_v2.zip
-        unzip phabox_db_v2.zip > /dev/null
-        phabox2 --task end_to_end --contigs example_contigs.fa -o end_to_end -d phabox_db_v2
-        head end_to_end/final_prediction/final_prediction_summary.tsv
-        phabox2 --task end_to_end --skip Y --contigs example_contigs.fa -o end_to_end2 -d phabox_db_v2
-        head end_to_end2/final_prediction/final_prediction_summary.tsv
-        phabox2 --task phamer --contigs example_contigs.fa -o phamer -d phabox_db_v2
-        head phamer/final_prediction/phamer_prediction.tsv
-        phabox2 --task phagcn --contigs example_contigs.fa -o phagcn -d phabox_db_v2
-        head phagcn/final_prediction/phagcn_prediction.tsv
-        phabox2 --task phatyp --contigs example_contigs.fa -o phatyp -d phabox_db_v2
-        head phatyp/final_prediction/phatyp_prediction.tsv
-        phabox2 --task cherry --contigs example_contigs.fa -o cherry -d phabox_db_v2
-        head cherry/final_prediction/cherry_prediction.tsv
-        phabox2 --task contamination --contigs example_contigs.fa -o contamination -d phabox_db_v2
-        head contamination/final_prediction/contamination_prediction.tsv
-        phabox2 --task votu --contigs example_contigs.fa -o votu -d phabox_db_v2 --mode AAI
-        head votu/final_prediction/AAI_based_vOTU.tsv
-        phabox2 --task votu --contigs example_contigs.fa -o votu -d phabox_db_v2 --mode ANI
-        head votu/final_prediction/ANI_based_vOTU.tsv
-        phabox2 --task tree --contigs example_contigs.fa -o tree -d phabox_db_v2 --msa Y --tree N
-        head tree/final_prediction/combined_marker.msa
+        wget https://github.com/FuchuanQu/GiantHunter/releases/download/v2.0/gianthunter_db_v1.zip
+        unzip gianthunter_db_v1.zip > /dev/null
+        gianthunter --contigs example/test.fasta --d gianthunter_db_v1 --out test
+        cat test/final_prediction/gianthunter_prediction.tsv
+        
