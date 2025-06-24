@@ -222,7 +222,6 @@ def run(inputs, db_dir, MAX_LENGTH=500):
     ###############################################################
     ####################### dump results ##########################
     ###############################################################
-    logger.info("[8/8] writing the results...")
     df = df.reset_index(drop=True)
 
     contigs_list = {item:1 for item in list(df['Accession'])}
@@ -361,7 +360,8 @@ def run(inputs, db_dir, MAX_LENGTH=500):
 
     try:
         if os.path.exists(diamond_db):
-            logger.info(f'Using preformatted DIAMOND database ({diamond_db}) ...')
+            #logger.info(f'Using preformatted DIAMOND database ({diamond_db}) ...')
+            pass
         else:
             # create database
             make_diamond_cmd = f'diamond makedb --threads {threads} --in {db_dir}/database.fa -d {db_dir}/database.dmnd'
@@ -378,7 +378,6 @@ def run(inputs, db_dir, MAX_LENGTH=500):
             diamond_cmd = f'diamond blastp --threads {threads} --sensitive -d {diamond_db} -q {rootpth}/{midfolder}/remained_protein.fa -o {rootpth}/{midfolder}/results.tab -k 1 --evalue 1e-5 --quiet'
         else:
             diamond_cmd = f'diamond blastp --threads {threads} --sensitive -d {diamond_db} -q {rootpth}/{midfolder}/remained_protein.fa -o {rootpth}/{midfolder}/results.tab -k 1 --query-cover {query_cover} --evalue 1e-5 --quiet'
-        logger.info("Running Diamond...")
         _ = subprocess.check_call(diamond_cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         diamond_out_fp = f"{rootpth}/{midfolder}/results.tab"
         database_abc_fp = f"{rootpth}/{midfolder}/results.abc"
@@ -387,10 +386,6 @@ def run(inputs, db_dir, MAX_LENGTH=500):
         logger.info("diamond blastp failed")
         logger.info(f"please try command {diamond_cmd}")
         exit(1)
-
-    #############################################################
-    ####################  Contig2Sentence  ######################
-    #############################################################
 
 
 
@@ -451,10 +446,6 @@ def run(inputs, db_dir, MAX_LENGTH=500):
     proportion = mapped_num/total_num
 
 
-
-    #############################################################
-    ####################     Load Model    ######################
-    #############################################################
     pcs2idx = pc2wordsid
     num_pcs = len(set(pcs2idx.keys()))
 
@@ -513,10 +504,8 @@ def run(inputs, db_dir, MAX_LENGTH=500):
         logger.info('cannot find pre-trained model')
         exit()
 
-    ####################################################################################
-    ##########################   Predit with contigs    ################################
-    ####################################################################################
 
+    logger.info("[8/8] writing the results...")
     all_pred = []
     all_score = []
     with torch.no_grad():
