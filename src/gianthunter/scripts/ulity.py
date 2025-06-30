@@ -820,26 +820,28 @@ def find_weighted_LCA(orf_hits, taxid2parent, threshold):
     # Sort by length and score, then select the best lineage
     valid_lineages.sort(key=lambda x: (len(x[0]), sum(x[1])), reverse=True)
     best_lineage, best_score = valid_lineages[0]
-    return best_lineage, best_score[::-1]
+    return best_lineage, best_score
 
 
 
 
-def convert_lineage_to_names(lineage, taxid2name, taxid2rank):
+def convert_lineage_to_names(lineage, lineages_scores, taxid2name, taxid2rank):
     named_lineage = []
-    for taxid in lineage:
+    str_score = []
+    for taxid, score in zip(lineage, lineages_scores):
         if taxid == 1:
             continue
         name = taxid2name.get(taxid, 'unknown')
         if name == 'Tailed phages':
             name = 'Caudoviricetes'
         rank = taxid2rank.get(taxid, 'unknown')
-        if rank == 'species':
-            continue
+        #if rank == 'species':
+        #    continue
         if rank == 'no rank':
             continue
         named_lineage.append(f"{rank}:{name}")
-    return ";".join(named_lineage[::-1])
+        str_score.append(f"{score:.2f}")
+    return ";".join(named_lineage[::-1]), ";".join(str_score[::-1])
 
 
 
