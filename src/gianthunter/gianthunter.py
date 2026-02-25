@@ -123,8 +123,8 @@ def run(inputs, db_dir, MAX_LENGTH=500):
         run_command(f"diamond blastp --db {db_dir}/RefVirus.dmnd --query {rootpth}/{midfolder}/query_protein.fa --out {rootpth}/{midfolder}/db_results.tab --outfmt 6 --threads {threads} --evalue 1e-5 --max-target-seqs 10000 --query-cover 50 --subject-cover 50 --quiet")
         run_command(f"awk '{{print $1,$2,$3,$12}}' {rootpth}/{midfolder}/db_results.tab > {rootpth}/{midfolder}/db_results.abc")
     # align to itself
-    run_command(f"diamond blastp --db {rootpth}/{midfolder}/query_protein.dmnd --query {rootpth}/{midfolder}/query_protein.fa --out {rootpth}/{midfolder}/self_results.tab --outfmt 6 --threads {threads} --evalue 1e-5 --max-target-seqs 10000 --query-cover 50 --subject-cover 50 --quiet")
-    run_command(f"awk '{{print $1,$2,$3,$12}}' {rootpth}/{midfolder}/self_results.tab > {rootpth}/{midfolder}/self_results.abc")
+    # run_command(f"diamond blastp --db {rootpth}/{midfolder}/query_protein.dmnd --query {rootpth}/{midfolder}/query_protein.fa --out {rootpth}/{midfolder}/self_results.tab --outfmt 6 --threads {threads} --evalue 1e-5 --max-target-seqs 10000 --query-cover 50 --subject-cover 50 --quiet")
+    # run_command(f"awk '{{print $1,$2,$3,$12}}' {rootpth}/{midfolder}/self_results.tab > {rootpth}/{midfolder}/self_results.abc")
 
     logger.info("[4/8] generating networks...")
     # FLAGS: no proteins aligned to the database
@@ -545,22 +545,27 @@ def run(inputs, db_dir, MAX_LENGTH=500):
     gene_annotation = gene_annotation[gene_annotation['Genome'].isin(merge_results['Accession'].values)]
     gene_annotation.to_csv(f'{rootpth}/{out_dir}/{supplementary}/gene_annotation.tsv', index=False, sep='\t')
     rec = []
-    check = {item: 1 for item in merge_results['Accession'].values}
+    gv_filter = merge_results[merge_results['GiantVirus'] == 'GiantVirus']
+    check = {item: 1 for item in gv_filter['Accession'].values}
     for record in SeqIO.parse(f'{rootpth}/filtered_contigs.fa', 'fasta'):
-        try:
-            _ = check[record.id]
+        if record.id in check:
             rec.append(record)
-        except:
-            pass
+        # try:
+        #     _ = check[record.id]
+        #     rec.append(record)
+        # except:
+        #     pass
     SeqIO.write(rec, f'{rootpth}/{out_dir}/giant_virus_contigs.fa', 'fasta')
 
     rec = []
     for record in SeqIO.parse(f'{rootpth}/{midfolder}/query_protein.fa', 'fasta'):
-        try:
-            _ = check[record.id.rsplit('_', 1)[0]]
+        if record.id.rsplit('_', 1)[0] in check:
             rec.append(record)
-        except:
-            pass
+        # try:
+        #     _ = check[record.id.rsplit('_', 1)[0]]
+        #     rec.append(record)
+        # except:
+        #     pass
     SeqIO.write(rec, f'{rootpth}/{out_dir}/{supplementary}/all_predicted_protein.fa', 'fasta')
 
     logger.info("GiantHunter finished! please check the results in {0}".format(os.path.join(rootpth, out_dir, 'gianthunter_prediction.tsv')))
@@ -572,7 +577,7 @@ def run(inputs, db_dir, MAX_LENGTH=500):
 
 def main():
     parser = argparse.ArgumentParser(description="""GiantHunter is a python library for identifying NCLDVs from metagenomic data. 
-                                    GiantHunter is based on a Transorfer model and relies on protein-based vocabulary to convert DNA sequences into sentences.""")
+                                    GiantHunter is based on a Transformer model and relies on protein-based vocabulary to convert DNA sequences into sentences.""")
     parser.add_argument('--contigs', help='FASTA file of contigs',  default = 'test_contigs.fa')
     parser.add_argument('--proteins', help='FASTA file of predicted proteins (optional)', default = 'test/midfolder/query_protein.fa')
     parser.add_argument('--len', help='minimum length of contigs', type=int, default=3000)
